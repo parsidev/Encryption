@@ -1,0 +1,21 @@
+{
+    "name": "parsidev/encryption",
+    "description": "Encryption package for laravel 5.5"
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mohammad Reza",
+            "email": "info@parsidev.ir"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "illuminate/support": "5.5.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Parsidev\\Encryption": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
