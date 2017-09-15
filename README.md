@@ -1,7 +1,4 @@
-   Encryption for Laravel
-   ==========
-   
-   Requirement
+Requirement
    ==========
    Laravel 5.5
    
