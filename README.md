@@ -1,7 +1,8 @@
    Encryption for Laravel
    ==========
    
-   Requirement<br />
+   Requirement
+   ==========
    Laravel 5.5
    
    installation
