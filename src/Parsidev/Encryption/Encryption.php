@@ -30,7 +30,7 @@ class Encryption
         foreach ($this->keys as $key) {
             $encrypted = $this->getCode($key, $encrypted);
         }
-        return hex2bin($encrypted);
+        return bin2hex($encrypted);
     }
 
     public function decrypt($decryptedText)
