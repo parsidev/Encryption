@@ -3,6 +3,7 @@
 namespace Parsidev\Encryption;
 
 use Illuminate\Support\ServiceProvider;
+use Parsidev\Encryption\Commands\EncryptionKeyGeneratorCommand;
 
 class EncryptionServiceProvider extends ServiceProvider {
 
@@ -12,6 +13,10 @@ class EncryptionServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__ . '/../../config/encryption.php' => config_path('encryption.php'),
         ]);
+        
+        if ($this->app->runningInConsole()) {
+            $this->commands([EncryptionKeyGeneratorCommand::class,]);
+        }
     }
 
     public function register() {
