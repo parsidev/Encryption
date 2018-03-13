@@ -1,6 +1,6 @@
 Requirement
    ==========
-   Laravel 5.5
+   Laravel 5.6
    
    installation
    ------------
@@ -8,20 +8,12 @@ Requirement
    
    ```php
    "require": {
-       "parsidev/encryption": "dev-master"
+       "parsidev/encryption": "5.6.x-dev"
    },
    ```
    Now, update Composer:
    ```
    composer update
-   ```
-   Once composer is finished, you need to add the service provider. Open ```config/app.php```, and add a new item to the providers array.
-   ```
-   Parsidev\Encryption\EncryptionServiceProvider::class,
-   ```
-   Next, add a Facade for more convenient usage. In ```config/app.php``` add the following line to the aliases array:
-   ```
-   'Encryption' => Parsidev\Encryption\Facades\Encryption::class
    ```
    Publish config files:
    ```
