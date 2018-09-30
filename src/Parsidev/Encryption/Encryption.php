@@ -3,6 +3,8 @@
 namespace Parsidev\Encryption;
 
 
+use Illuminate\Support\Facades\Log;
+
 class Encryption
 {
 
@@ -13,33 +15,56 @@ class Encryption
         $this->keys = $keys;
     }
 
-    protected function getCode($key, $text)
-    {
-        $outText = '';
-        for ($i = 0; $i < strlen($text);) {
-            for ($j = 0; ($j < strlen($key) && $i < strlen($text)); $j++, $i++) {
-                $outText .= $text{$i} ^ $key{$j};
-            }
-        }
-        return ($outText);
-    }
-
     public function encrypt($plainText)
     {
-        $encrypted = $plainText;
+        $message = base64_encode($plainText);
+        $ml = strlen($message);
         foreach ($this->keys as $key) {
-            $encrypted = $this->getCode($key, $encrypted);
+            $key = trim($key);
+            $kl = strlen($key);
+            $tmp = "";
+            for ($i = 0; $i < $ml; $i++) {
+                $tmp = $tmp . ($message[$i] ^ $key[$i % $kl]);
+            }
+            $message = $tmp;
+            $ml = strlen($message);
         }
-        return bin2hex($encrypted);
+        return bin2hex($message);
+    }
+
+    public function deSort($data)
+    {
+        if(is_array($data)){
+            $d = $data;
+            $dCount = count($d);
+            $result = [];
+            for ($i = $dCount - 1; $i >= 0; $i--) {
+                $result[]= $d[$i];
+            }
+            return $result;
+        }
+
+        return $data;
     }
 
     public function decrypt($decryptedText)
     {
-        $decrypted = $this->hex2bin($decryptedText);
-        for ($i = count($this->keys) - 1; $i >= 0; $i--) {
-            $decrypted = $this->getCode($this->keys[$i], $decrypted);
+        $msg = $this->hex2bin($decryptedText);
+        $ml = strlen($msg);
+
+        $keys = $this->deSort($this->keys);
+
+        foreach ($keys as $key) {
+            $key = trim($key);
+            $kl = strlen($key);
+            $tmp = "";
+            for ($i = 0; $i < $ml; $i++) {
+                $tmp = $tmp . ($msg[$i] ^ $key[$i % $kl]);
+            }
+            $msg = $tmp;
+            $ml = strlen($msg);
         }
-        return $decrypted;
+        return base64_decode($msg);
     }
 
     protected function hex2bin($hexData)

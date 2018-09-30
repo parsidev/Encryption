@@ -42,28 +42,29 @@ class EncryptionKeyGeneratorCommand extends Command
     {
         $path = ('config/encryption.php');
         $count = $this->argument('count');
-        $codes = [];
         $contents = "<?php
 
 return [
     \"keys\" =>
         [\r\n";
-        for ($i = 0; $i <= $count; $i++) {
+        for ($i = 1; $i <= $count; $i++) {
             $length = rand($this->min(), $this->max());
             $code = $this->generateCode($length);
-            $codes[] = $code;
-            foreach ($codes as $co) {
-                $code = $this->getCode($co, $code);
-            }
             $contents .= "\t\t\t\"" . str_replace("\"", $this->generateCode(1),
-                                        str_replace("$", $this->generateCode(1),
-                                            str_replace("\r\n", $this->generateCode(1),
-                                                str_replace("\r", $this->generateCode(1),
-                                                    str_replace("\n", $this->generateCode(1), $code)
-                                                )
-                                            )
+                    str_replace("$", $this->generateCode(1),
+                        str_replace("\r\n", $this->generateCode(1),
+                            str_replace("\r", $this->generateCode(1),
+                                str_replace("\n", $this->generateCode(1),
+                                    str_replace(",", $this->generateCode(1),
+                                        str_replace("<", $this->generateCode(1),
+                                            str_replace(">", $this->generateCode(1), $code)
                                         )
-                                    ) . "\",\r\n";
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ) . "\",\r\n";
         }
 
         $contents .= "        ]
@@ -75,7 +76,7 @@ return [
 
     protected function generateCode($length)
     {
-        $string = "/29VH[1DGlnZ=;,es@kQK)4gF7p5mNtM<'y?8}:BT#X+|6SE*>U%vIi^AjR]0O3aYPx-!bhqd.oJc{Lw_(zfuCr&W";
+        $string = "e0PfTq2rA6RyZEmaLWBDIiFYkwSObs3t1gX4upJ79QMo8nKhGVvlNjUdzCH5xc";
         $stringLength = strlen($string);
         $result = "";
         for ($i = 0; $i < $length; $i++) {
